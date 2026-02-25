@@ -1,15 +1,23 @@
 const express = require("express");
-
 const app = express();
 const usersRouter = require("./routes/users");
 const cardsRouter = require("./routes/cards");
-
 const { PORT = 3000 } = process.env;
+const mongoose = require("mongoose");
 
-// Middleware para parsear JSON
+mongoose.connect("mongodb://localhost:27017/aroundb");
+
 app.use(express.json());
 
-// Rutas específicas PRIMERO
+// MIDDLEWARE TEMPORAL DE USUARIO
+app.use((req, res, next) => {
+  req.user = {
+    _id: "699e320d22afa209b211e08d",
+  };
+  next();
+});
+
+// Rutas
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
 
@@ -20,6 +28,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
-const mongoose = require("mongoose");
-
-mongoose.connect("mongodb://localhost:27017/aroundb");

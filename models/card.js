@@ -18,7 +18,7 @@ const cardSchema = new mongoose.Schema({
           v,
         );
       },
-      message: "El avatar debe ser una URL válida",
+      message: "El enlace debe ser una URL válida",
     },
   },
   owner: {
@@ -26,13 +26,15 @@ const cardSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
-  likes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      default: [],
-    },
-  ],
+  likes: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
